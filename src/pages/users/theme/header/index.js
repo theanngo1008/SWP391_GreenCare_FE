@@ -6,12 +6,21 @@ import { Link } from "react-router-dom";
 import logo from './logoHeader.jpg';
 import logo1 from './logo1.webp'
 import { ROUTERS } from "utils/router";
-import Login from 'components/Login'
+import Login from 'components/Login';
+import Register from 'components/Register';
 const Header = () => {
-  const [seen, setSeen] = useState(false)
+  const [showPopup, setShowPopup] = useState(null); // null: không popup, 'login': login, 'register': register
 
-  function togglePop() {
-    setSeen(!seen);
+  const handleLoginClick = () => {
+    setShowPopup('login');
+  };
+
+  const handleRegisterClick = () => {
+    setShowPopup('register');
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(null); // Đóng tất cả popup
   };
 
   const [isShowCategories, setShowCategories] = useState(true);
@@ -195,12 +204,17 @@ const Header = () => {
                   </Link>
 
                   <div>
-                    <button className="loginButton" onClick={togglePop}>Login</button>
-                    {seen ? <Login toggle={togglePop} /> : null}
+                    <button onClick={handleLoginClick}>Đăng nhập</button>
+                    <label> / </label>
+                    <button onClick={handleRegisterClick}>Đăng ký</button>
+
+                    {showPopup === 'login' && <Login toggle={handleClosePopup} />}
+                    {showPopup === 'register' && <Register toggle={handleClosePopup} />}
                   </div>
 
 
-                  <span className="Login11">/Register</span>
+
+
                 </li>
               </ul>
             </div>
